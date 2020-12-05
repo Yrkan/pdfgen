@@ -1,4 +1,4 @@
-module pdfgen
+module github.com/Yrkan/pdfgen
 
 go 1.14
 
