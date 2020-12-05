@@ -9,9 +9,12 @@ import (
 type variables struct {
 	variables interface{}
 }
-func saveDoc(vars interface{}) {
+
+// SaveDoc Save doc
+func SaveDoc(vars interface{}) {
 	println(vars)
 }
+
 func test() {
 		// Read from docx file
 		r, err := docx.ReadDocxFile("./Template.docx")
