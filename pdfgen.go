@@ -1,20 +1,50 @@
 package pdfgen
 
 import (
-	"os/exec"
-
-	"github.com/nguyenthenguyen/docx"
+	"reflect"
 )
 
-type variables struct {
-	variables interface{}
+// WTF WTF
+func WTF() {
+	println("wtf")
 }
-
 // SaveDoc Save doc
-func SaveDoc(vars interface{}) {
-	println(vars)
-}
+func SaveDoc(t1 interface{}) {
+	fields := reflect.TypeOf(t1)
+	values := reflect.ValueOf(t1)
 
+	num := fields.NumField()
+
+	for i := 0; i < num; i++ {
+		field := fields.Field(i)
+		value := values.Field(i)
+		if (value.Kind() == reflect.String) {
+			v := value.String()
+			println(field.Name)
+			println(v)
+		}
+
+	}
+}
+/*
+func process() {
+structValue := Test{name: "foo", age: 10}
+fields := reflect.TypeOf(structValue)
+values := reflect.ValueOf(structValue)
+
+num := fields.NumField()
+
+for i := 0; i < num; i++ {
+    field := fields.Field(i)
+	value := values.Field(i)
+	if (value.Kind() == reflect.String) {
+		v := value.String()
+		println(field.Name)
+		println(v)
+	}
+
+}
+}
 func test() {
 		// Read from docx file
 		r, err := docx.ReadDocxFile("./Template.docx")
@@ -56,3 +86,4 @@ func test() {
 	
 		r.Close()	
 }
+*/
