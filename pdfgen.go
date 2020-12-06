@@ -16,7 +16,7 @@ func Save(template string, data interface{}) {
 	arg1 := "--invisible" //This command is optional, it will help to disable the splash screen of LibreOffice.
 	arg2 := "--convert-to"
 	arg3 := "pdf:writer_pdf_Export"
-	path := path.Dir(template) + "/temptest.docx"
+	path := path.Dir(template) + "/temp.docx"
 	_, err := exec.Command(arg0,arg1,arg2,arg3,path).Output()
 	if (err != nil) {
 		log.Fatal(err)
