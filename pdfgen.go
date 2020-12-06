@@ -1,49 +1,54 @@
 package pdfgen
 
 import (
+	"os/exec"
 	"reflect"
+
+	"github.com/nguyenthenguyen/docx"
 )
 
-// WTF WTF
-func WTF() {
-	println("wtf")
-}
-// SaveDoc Save doc
-func SaveDoc(t1 interface{}) {
-	fields := reflect.TypeOf(t1)
-	values := reflect.ValueOf(t1)
+// Save tt
+func Save(template string, data interface{}, output string) {
+	processDocument(template, data)
+	arg0 := "lowriter"
+	arg1 := "--invisible" //This command is optional, it will help to disable the splash screen of LibreOffice.
+	arg2 := "--convert-to"
+	arg3 := "pdf:writer_pdf_Export"
+	path := template
+	exec.Command(arg0,arg1,arg2,arg3,path).Output()
 
+}
+
+// SaveDoc Save doc
+func processDocument(path string, data interface{}) {
+	fields := reflect.TypeOf(data)
+	values := reflect.ValueOf(data)
 	num := fields.NumField()
 
+	// Read from docx file
+	r, err := docx.ReadDocxFile(path)
+	if err != nil {
+		panic(err)
+	}
+	docx1 := r.Editable()
+
+	// loop over the fields in the provided struct and modify
 	for i := 0; i < num; i++ {
 		field := fields.Field(i)
 		value := values.Field(i)
 		if (value.Kind() == reflect.String) {
-			v := value.String()
-			println(field.Name)
-			println(v)
+			val := value.String()
+			variable := "{{." +  field.Name + "}}"
+			docx1.Replace(variable, val, -1)
+
 		}
 
 	}
+	docx1.WriteToFile("./temp.docx")
+	r.Close()
+	
 }
 /*
-func process() {
-structValue := Test{name: "foo", age: 10}
-fields := reflect.TypeOf(structValue)
-values := reflect.ValueOf(structValue)
-
-num := fields.NumField()
-
-for i := 0; i < num; i++ {
-    field := fields.Field(i)
-	value := values.Field(i)
-	if (value.Kind() == reflect.String) {
-		v := value.String()
-		println(field.Name)
-		println(v)
-	}
-
-}
 }
 func test() {
 		// Read from docx file
