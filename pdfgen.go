@@ -10,7 +10,7 @@ import (
 )
 
 // Save tt
-func Save(template string, data interface{}, output string) {
+func Save(template string, data interface{}) {
 	processDocument(template, data)
 	arg0 := "lowriter"
 	arg1 := "--invisible" //This command is optional, it will help to disable the splash screen of LibreOffice.
