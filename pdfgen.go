@@ -26,15 +26,30 @@ func Write(template string, data interface{}, w io.Writer) {
 
 // Save to outpath
 func Save(template string, data interface{}, outpath string) {
-	processDocument(template, data)
+	// Fix Format
 	arg0 := "lowriter"
 	arg1 := "--invisible" //This command is optional, it will help to disable the splash screen of LibreOffice.
 	arg2 := "--convert-to"
-	arg3 := "pdf:writer_pdf_Export"
+	arg3 := "docx"
 	arg4 := "--outdir"
-	arg5 := path.Dir(outpath)
-	dpath := path.Dir(template) + "/temp.docx"
+	arg5 := path.Dir(template)
+	dpath := template
 	_, err := exec.Command(arg0,arg1,arg2,arg3, arg4, arg5 ,dpath).Output()
+	if (err != nil) {
+		log.Fatal(err)
+	} 
+
+	processDocument(template, data)
+
+	// Convert to pdf
+	arg0 = "lowriter"
+	arg1 = "--invisible" //This command is optional, it will help to disable the splash screen of LibreOffice.
+	arg2 = "--convert-to"
+	arg3 = "pdf:writer_pdf_Export"
+	arg4 = "--outdir"
+	arg5 = path.Dir(outpath)
+	dpath = path.Dir(template) + "/temp.docx"
+	_, err = exec.Command(arg0,arg1,arg2,arg3, arg4, arg5 ,dpath).Output()
 	if (err != nil) {
 		log.Fatal(err)
 	} 
