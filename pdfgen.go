@@ -25,13 +25,13 @@ func Save(template string, data interface{}) {
 }
 
 // SaveDoc Save doc
-func processDocument(path string, data interface{}) {
+func processDocument(dpath string, data interface{}) {
 	fields := reflect.TypeOf(data)
 	values := reflect.ValueOf(data)
 	num := fields.NumField()
 
 	// Read from docx file
-	r, err := docx.ReadDocxFile(path)
+	r, err := docx.ReadDocxFile(dpath)
 	if err != nil {
 		panic(err)
 	}
@@ -49,7 +49,8 @@ func processDocument(path string, data interface{}) {
 		}
 
 	}
-	docx1.WriteToFile("./temp.docx")
+	
+	docx1.WriteToFile(path.Dir(dpath) + "/temp.docx")
 	r.Close()
 	
 }
