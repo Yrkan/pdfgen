@@ -17,7 +17,7 @@ func Save(template string, data interface{}) {
 	arg2 := "--convert-to"
 	arg3 := "pdf:writer_pdf_Export"
 	arg4 := "--outdir"
-	arg5 := "path.Dir(template)"
+	arg5 := path.Dir(template)
 	path := path.Dir(template) + "/temp.docx"
 	_, err := exec.Command(arg0,arg1,arg2,arg3, arg4, arg5 ,path).Output()
 	if (err != nil) {
