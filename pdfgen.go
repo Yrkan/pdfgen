@@ -30,7 +30,7 @@ func Save(template string, data interface{}, outpath string) {
 	arg0 := "lowriter"
 	arg1 := "--invisible" //This command is optional, it will help to disable the splash screen of LibreOffice.
 	arg2 := "--convert-to"
-	arg3 := "docx"
+	arg3 := "docx[:Word 2007–365]"
 	arg4 := "--outdir"
 	arg5 := path.Dir(template)
 	dpath := template
