@@ -36,7 +36,7 @@ func Save(template string, data interface{}, outpath string) {
 	dpath := template
 	_, err := exec.Command(arg0,arg1,arg2,arg3, arg4, arg5 ,dpath).CombinedOutput()
 	if err != nil {
-        log.Fatal("Critical err")
+        log.Fatal(err)
 	}
 
 	processDocument("./temp/"+path.Base(template), data)
@@ -68,15 +68,14 @@ func processDocument(tpath string, data interface{}) {
 		panic(err)
 	}
 	docx1 := r.Editable()
-
 	// loop over the fields in the provided struct and modify
 	for i := 0; i < num; i++ {
 		field := fields.Field(i)
 		value := values.Field(i)
 		if (value.Kind() == reflect.String) {
 			val := value.String()
-			variable := "{{." +  field.Name + "}}"
-			docx1.Replace(variable, val, -1)
+			variable := "var#" + field.Name
+			docx1.ReplaceRaw(variable, val, -1)
 
 		}
 
